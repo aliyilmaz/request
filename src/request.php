@@ -3,7 +3,7 @@
 /**
  *
  * @package    request
- * @version    Release: 1.0.0
+ * @version    Release: 1.0.1
  * @license    GPL3
  * @author     Ali YILMAZ <aliyilmaz.work@gmail.com>
  * @category   Request collector
@@ -17,9 +17,10 @@ class request extends Mind
      * @param null|string $name
      * @return array|string
      */
-    public function request($name=''){
+    public function request($name=null){
 
-        $post = array();
+        $post = []; $names = []; $output = [];
+
         if(isset($_POST) OR isset($_GET) OR isset($_FILES)){
 
             foreach (array_merge($_POST, $_GET, $_FILES) as $n => $value) {
@@ -41,11 +42,17 @@ class request extends Mind
             }
         }
 
-        if(isset($post[$name])){
-            return $post[$name];
-        }
+        // The non-array value is added to the set.
+        if(!is_null($name) AND !is_array($name) AND !empty($name)) $names[] = $name;
 
-        return $post;
+        // Values sent as arrays are added to the set.
+        if(!is_null($name) AND is_array($name)) foreach($name as $n) { $names[] = $n; }
+
+        // Adds the specified keys if they exist, or all keys to the set.
+        if(!empty($names)) {  foreach ($names as $name) { 
+            if(isset($post[$name])) $output[$name] = $post[$name]; }} else { $output = $post; }
+
+        return $output;
     }
 
 }
