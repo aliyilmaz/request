@@ -7,7 +7,7 @@
  * @license    GPL3
  * @author     Ali YILMAZ <aliyilmaz.work@gmail.com>
  * @category   Request collector
- * @link       https://github.com/aliyilmaz/getOS
+ * @link       https://github.com/aliyilmaz/request
  *
  */
 class request extends Mind
